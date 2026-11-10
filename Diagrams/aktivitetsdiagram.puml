@@ -1,0 +1,31 @@
+@startuml SkapaKundkontoAktivitet
+
+start
+
+:Välj "Skapa kundkonto";
+:Visa registreringsformulär;
+
+repeat
+    :Ange kunduppgifter;
+    :Validera kunduppgifter;
+
+    if (Är kunduppgifterna giltiga?) then (Nej)
+        :Visa valideringsfel;
+    else (Ja)
+
+        :Kontrollera om kunden redan finns;
+
+        if (Finns kunden redan?) then (Ja)
+            :Visa "Kundkonto finns redan";
+        else (Nej)
+            :Skapa kundkonto;
+            :Spara kunduppgifter;
+            :Visa bekräftelse;
+            stop
+        endif
+
+    endif
+
+repeat while (Försöka igen?) is (Ja) not (Nej)
+
+@enduml

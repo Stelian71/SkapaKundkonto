@@ -1,0 +1,41 @@
+@startuml
+
+actor Kund
+participant UI
+participant CustomerService
+participant CustomerRepository
+participant Customer
+
+Kund -> UI: Väljer "Skapa kundkonto"
+UI -> Kund: Visar registreringsformulär
+
+Kund -> UI: Anger kunduppgifter
+UI -> CustomerService: CreateCustomer(...)
+
+alt Ogiltiga kunduppgifter
+    CustomerService -> UI: Valideringsfel
+    UI -> Kund: Visar valideringsfel
+    Kund -> UI: Korrigerar kunduppgifter
+
+else Giltiga kunduppgifter
+    CustomerService -> CustomerRepository: CustomerExists(...)
+    CustomerRepository --> CustomerService: Kunden finns / finns inte
+
+    alt Kunden finns redan
+        CustomerService -> UI: "Kundkonto finns redan"
+        UI -> Kund: Visar felmeddelande
+        Kund -> UI: Korrigerar kunduppgifter
+
+    else Kunden finns inte
+        CustomerService -> Customer: Skapar Customer
+        Customer --> CustomerService: Customer-objekt
+
+        CustomerService -> CustomerRepository: Save(Customer)
+        CustomerRepository --> CustomerService: Kund sparad
+
+        CustomerService -> UI: "Kundkonto har skapats"
+        UI -> Kund: Visar bekräftelse
+    end
+end
+
+@enduml
