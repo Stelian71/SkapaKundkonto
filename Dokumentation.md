@@ -130,7 +130,7 @@ Om kunden inte finns skapas kundkontot, uppgifterna sparas och systemet visar en
 
 Aktivitetsdiagrammet finns i projektet:
 
-`Diagrams/aktivitetsdiagram.puml`
+![Aktivitetsdiagram](Diagrams/aktivitetsdiagram/aktivitetsdiagram.png)
 
 ---
 
@@ -172,7 +172,7 @@ Customer representerar själva kundobjektet och innehåller kundens uppgifter.
 
 Sekvensdiagrammet finns i projektet:
 
-`Diagrams/sekvensdiagram.puml`
+![Sekvensdiagram](Diagrams/sekvensdiagram/sekvensdiagram.png)
 
 ---
 
