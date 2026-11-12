@@ -1,0 +1,40 @@
+@startuml sekvensdiagram
+title Sekvensdiagram – Skapa kundkonto
+
+actor Kund
+participant UI
+participant CustomerService
+participant CustomerRepository
+participant Customer
+
+Kund -> UI: Välj "Skapa kundkonto"
+UI -> Kund: Visa registreringsformulär
+
+Kund -> UI: Ange namn, orgnr,\ne-post och telefon
+UI -> CustomerService: CreateCustomer(data)
+
+CustomerService -> CustomerService: Validera kunduppgifter
+
+alt Ogiltiga uppgifter
+    CustomerService -> UI: Visa valideringsfel
+    UI -> Kund: Visa felmeddelande
+    Kund -> UI: Korrigera uppgifter
+else Giltiga uppgifter
+
+    CustomerService -> CustomerRepository: ExistsCustomer(data)
+    CustomerRepository --> CustomerService: Kund finns / finns inte
+
+    alt Kunden finns redan
+        CustomerService -> UI: Visa "Kundkonto finns redan"
+        UI -> Kund: Visa felmeddelande
+        Kund -> UI: Korrigera uppgifter
+    else Kunden finns inte
+        CustomerService -> Customer: Skapa Customer
+        CustomerService -> CustomerRepository: Save(Customer)
+        CustomerRepository --> CustomerService: Kund sparad
+        CustomerService -> UI: Konto skapat
+        UI -> Kund: Visa bekräftelse
+    end
+end
+
+@enduml
